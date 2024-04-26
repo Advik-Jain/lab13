@@ -15,12 +15,16 @@ public class FamilyTree
         private String                    name;
         private TreeNode                parent;
         private ArrayList<TreeNode>        children;
+        public TreeNode left;
+        public TreeNode right;
         
         
         TreeNode(String name)
         {
             this.name = name;
             children = new ArrayList<>();
+            left=null;
+            right=null;
         }
         
         
@@ -34,6 +38,10 @@ public class FamilyTree
         {
             // Add childNode to this node's children list. Also
             // set childNode's parent to this node.
+        	// Check if tree is empty
+            if (parent == null) {return;}
+            parent.children.add(childNode);
+            
         }
         
         
@@ -41,15 +49,17 @@ public class FamilyTree
         // with the given name. Returns the node, or null if not found.
         TreeNode getNodeWithName(String targetName)
         {
+        	
             // Does this node have the target name?
-            if (?????)
-                return this;
+            if (root.name.equals(targetName))
+                return root;
                     
             // No, recurse. Check all children of this node.
             for (TreeNode child: children)
             {
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
+            	if(child.getNodeWithName(targetName)!=null) {return child;}
             }
             
             // Not found anywhere.
@@ -67,7 +77,13 @@ public class FamilyTree
             // the nodes of a tree is like traversing a linked list. If that isn’t clear,
             // draw a tree, mark any leaf node, and then mark its ancestors in order from
             // recent to ancient. Expect a question about this on the final exam.
+            TreeNode currentNode = this.parent; // Start from the parent node
 
+            while (currentNode != null) {
+                ancestors.add(currentNode); // Add the current node to the list of ancestors
+                currentNode = currentNode.parent; // Move up to the parent of the current node
+            }
+            
             return ancestors;
         }
         
@@ -88,7 +104,7 @@ public class FamilyTree
         }
     }
 
-	private TreeNode			root;
+	private static TreeNode			root;
 	
 	
 	//
